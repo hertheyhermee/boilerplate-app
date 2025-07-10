@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,14 +12,14 @@ Route::get('/demo-form', function () {
     return view('demo-form');
 });
 
-Route::post('/demo-form', function (\Illuminate\Http\Request $request) {
+Route::post('/demo-form', function (Request $request) {
     // Save to database (demo: just save to demo_submissions table)
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email',
     ]);
     
-    \DB::table('demo_submissions')->insert([
+    DB::table('demo_submissions')->insert([
         'name' => $validated['name'],
         'email' => $validated['email'],
         'created_at' => now(),
